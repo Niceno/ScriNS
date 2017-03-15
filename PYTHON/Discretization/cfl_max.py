@@ -1,6 +1,6 @@
 # ScriNS modules
-from constants.all      import *
-from operators.all      import *
+from Constants.all      import *
+from Operators.all      import *
 
 #==========================================================================
 def cfl_max(uvw, dt, dxyz):

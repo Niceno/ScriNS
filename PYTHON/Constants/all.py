@@ -1,7 +1,7 @@
 # Constants
-from constants.boundary_conditions    import *
-from constants.compass                import *
-from constants.coordinates            import *
-from constants.gravitational_constant import *
-from constants.solver                 import *
-from constants.tiny_and_huge          import *
+from Constants.boundary_conditions    import *
+from Constants.compass                import *
+from Constants.coordinates            import *
+from Constants.gravitational_constant import *
+from Constants.solver                 import *
+from Constants.tiny_and_huge          import *

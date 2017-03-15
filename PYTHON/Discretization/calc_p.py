@@ -2,13 +2,13 @@
 from standard import *
 
 # ScriNS modules
-from constants.all      import *
-from operators.all      import *
+from Constants.all      import *
+from Operators.all      import *
 
-from discretization.adj_n_bnds     import adj_n_bnds
-from discretization.create_matrix  import create_matrix
-from discretization.vol_balance    import vol_balance
-from discretization.obst_zero_val  import obst_zero_val
+from Discretization.adj_n_bnds     import adj_n_bnds
+from Discretization.create_matrix  import create_matrix
+from Discretization.vol_balance    import vol_balance
+from Discretization.obst_zero_val  import obst_zero_val
 
 #==========================================================================
 def calc_p(p, uvwf, rho, dt, dxyz, obst ):

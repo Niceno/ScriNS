@@ -2,12 +2,12 @@
 from standard import *
 
 # ScriNS modules
-from constants.all      import *
-from operators.all      import *
+from Constants.all      import *
+from Operators.all      import *
 
-from discretization.adj_n_bnds     import adj_n_bnds
-from discretization.advection      import advection
-from discretization.create_matrix  import create_matrix
+from Discretization.adj_n_bnds     import adj_n_bnds
+from Discretization.advection      import advection
+from Discretization.create_matrix  import create_matrix
 
 #==========================================================================
 def calc_t(t, uvwf, rho_cap, kappa, dt, dxyz, obst):

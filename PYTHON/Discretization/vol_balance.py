@@ -2,10 +2,10 @@
 from standard import *
 
 # ScriNS modules
-from constants.all      import *
-from operators.all      import *
+from Constants.all      import *
+from Operators.all      import *
 
-from discretization.obst_zero_val  import obst_zero_val
+from Discretization.obst_zero_val  import obst_zero_val
 
 #==========================================================================
 def vol_balance(uvwf, dxyz, obst):

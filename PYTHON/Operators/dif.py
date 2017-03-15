@@ -1,5 +1,5 @@
 # ScriNS modules
-from constants.all import *
+from Constants.all import *
 
 #==========================================================================
 def dif(*args):

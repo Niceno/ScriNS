@@ -2,10 +2,10 @@
 from standard import *
 
 # ScriNS modules
-from constants.all import *
-from display.all   import *
+from Constants.all import *
+from Display.all   import *
 
-from operators.all import avg
+from Operators.all import avg
 
 #==========================================================================
 def par(mean_val, x_nodes):

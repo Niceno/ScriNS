@@ -2,10 +2,10 @@
 from standard import *
 
 # ScriNS modules
-from constants.all      import *
-from operators.all      import *
+from Constants.all      import *
+from Operators.all      import *
 
-from discretization.obst_mod_matrix import obst_mod_matrix
+from Discretization.obst_mod_matrix import obst_mod_matrix
 
 #==========================================================================
 def create_matrix(phi, inn, mu, dxyz, obst, obc):

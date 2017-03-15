@@ -2,7 +2,7 @@
 from standard import *
 
 # ScriNS modules
-from constants.all import *
+from Constants.all import *
 
 #==========================================================================
 def adj_n_bnds(phi):

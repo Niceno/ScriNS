@@ -2,14 +2,14 @@
 from standard import *
 
 # ScriNS modules
-from constants.all      import *
-from operators.all      import *
+from Constants.all      import *
+from Operators.all      import *
 
-from discretization.adj_n_bnds     import adj_n_bnds
-from discretization.adj_o_bnds     import adj_o_bnds
-from discretization.advection      import advection
-from discretization.create_matrix  import create_matrix
-from discretization.obst_zero_val  import obst_zero_val
+from Discretization.adj_n_bnds     import adj_n_bnds
+from Discretization.adj_o_bnds     import adj_o_bnds
+from Discretization.advection      import advection
+from Discretization.create_matrix  import create_matrix
+from Discretization.obst_zero_val  import obst_zero_val
 
 #==========================================================================
 def calc_uvw(uvw, uvwf, rho, mu, p_tot, e_f, dt, dxyz, obst):

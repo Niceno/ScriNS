@@ -1,5 +1,5 @@
 # Operators
-from operators.avg import avg
-from operators.cat import cat
-from operators.dif import dif
-from operators.par import par
+from Operators.avg import avg
+from Operators.cat import cat
+from Operators.dif import dif
+from Operators.par import par

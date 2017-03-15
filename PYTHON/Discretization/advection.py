@@ -2,8 +2,8 @@
 from standard import *
 
 # ScriNS modules
-from constants.all import *
-from operators.all import *
+from Constants.all import *
+from Operators.all import *
 
 #==========================================================================
 def advection(rho, phi, uvwf, dxyz, dt, lim_name):

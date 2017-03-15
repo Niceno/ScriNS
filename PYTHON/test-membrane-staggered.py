@@ -1,3 +1,11 @@
+#==========================================================================
+# Demonstrates the membrane for Kerstin.  Two domains are computed
+# independently, but linked through boundary conditions in an inner loop
+# within each time step.  This seems the most practical approach of all
+# because the membrane model implementations are very obvious, at one
+# place, in the main function.  The convergence of the conditions at the
+# membrane seems to be rather fast too.
+#--------------------------------------------------------------------------
 
 #!/usr/bin/python
 

@@ -1,3 +1,14 @@
+#==========================================================================
+# This script is to reproduce two-dimensional mixed convection case, with
+# the aim of testing the outflow boundary, particularly the "convective"
+# boundary condition which allows eddies to leave the domain.
+#
+# There is also a staggered version of this script, called
+# "demo_plums_collocated.m".  It would be good to keep both version as
+# similar as possible to each other, to test the differences between
+# staggered and collocated arrangements always possible.
+#--------------------------------------------------------------------------
+
 #!/usr/bin/python
 
 # Standard Python modules

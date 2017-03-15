@@ -1,3 +1,31 @@
+#==========================================================================
+# This program solves thermally driven cavity at Ra = 1.0e6, 
+# in dimensional and non-dimensional forms.
+#
+# Equations in dimensional form:
+#
+# D(rho u)/Dt = nabla(mu (nabla u)^T) - nabla p + g 
+# D(rho cp T)/Dt = nabla(lambda (nabla T)^T) 
+#
+# Equations in non-dimensional form, for natural convection problems
+#
+# DU/Dt = nabla(1/sqrt(Gr) (nabla U)^T) - nabla P + theta 
+# D theta/Dt = nabla(1/(Pr*sqrt(Gr)) (nabla theta)^T) 
+#
+#--------------------------------------------------------------------------
+# For thermally driven cavity, with properties of air at 60 deg:
+#
+# nu   =  1.89035E-05;
+# beta =  0.003;
+# dT   = 17.126;
+# L    =  0.1;
+# Pr   = 0.709;
+#
+# characteristic non-dimensional numbers are:
+# Gr = 1.4105E+06
+# Ra = 1.0000E+06
+#--------------------------------------------------------------------------
+
 #!/usr/bin/python
 
 # Standard Python modules

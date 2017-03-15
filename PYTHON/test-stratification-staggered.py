@@ -1,3 +1,12 @@
+#==========================================================================
+# Solves flow in a channel with stable or unstable stratification.  
+# The type of stratification is set by parameter "STRATIFICATION"
+#
+# Uses non-Boussinesq model for buoyancy term; i.e. density depends on
+# temperature.
+#
+# Gravity term is engaged gradually to avoid vortex at the outlet.
+#--------------------------------------------------------------------------
 
 #!/usr/bin/python
 

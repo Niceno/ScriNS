@@ -1,3 +1,12 @@
+#==========================================================================
+# This scripts tests inlet and outlet conditons at various places in
+# computational domain.
+#
+# Computational domain is a simple box, and Reynolds number is rather 
+# small to avoid instabilities due to vortices getting out from the 
+# outlet. The script selects the case it will run randomply, from the 
+# 16 predefined cases.
+#--------------------------------------------------------------------------
 
 #!/usr/bin/python
 

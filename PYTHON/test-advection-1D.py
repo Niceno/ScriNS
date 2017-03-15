@@ -1,3 +1,15 @@
+#==========================================================================
+# Program to test implementation of advection schemes in the code, using
+# one-dimensoinal transport of a step function in X, Y or Z 
+# direction, either in positive or negative sense.
+#
+# The coordinate direction is specified with the local variable "TEST",
+# which can be either X, Y or Z.
+#
+# Sense is specified with the variable "FLOW", which can assume values 'p'
+# for positive, and 'n' for negative sense.
+#--------------------------------------------------------------------------
+
 #!/usr/bin/python
 
 # Standard Python modules

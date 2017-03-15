@@ -5,11 +5,11 @@
 from standard import *
 
 # ScriNS modules
-from constants.all       import *
-from operators.all       import *
-from display.all         import *
-from discretization.all  import *
-from physical_models.all import properties_for_air
+from Constants.all      import *
+from Operators.all      import *
+from Display.all        import *
+from Discretization.all import *
+from PhysicalModels.all import properties_for_air
 
 #==========================================================================
 #

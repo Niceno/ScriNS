@@ -1,3 +1,14 @@
+#==========================================================================
+# Demonstrates the variation of projection algorythm which computes total
+# pressure, as a sum of all pressure corrections.  
+#
+# The total pressure being built up in this way counter-balances the 
+# gravity term in momentum equations.
+#
+# It seems that such an approach is important for bouyancy dominated flows.
+#
+# Gravity term is under-relaxed here, but it works even without it.
+#--------------------------------------------------------------------------
 
 #!/usr/bin/python
 

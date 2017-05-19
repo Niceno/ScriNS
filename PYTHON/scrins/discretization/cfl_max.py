@@ -1,6 +1,7 @@
-# ScriNS modules
-from Constants.all      import *
-from Operators.all      import *
+from scrins.constants.coordinates import X, Y, Z
+from scrins.constants.compass import W, E, S, N, B, T, C
+from scrins.operators.avg import avg
+
 
 #==========================================================================
 def cfl_max(uvw, dt, dxyz):

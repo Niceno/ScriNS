@@ -1,9 +1,8 @@
-# Standard Python modules
-from standard import *
+from scipy import logical_not as lnot
+from scipy import maximum as mx
 
-# ScriNS modules
-from Constants.all import *
-from Operators.all import *
+from scrins.constants.coordinates import X, Y, Z
+from scrins.constants.compass import C
 
 #==========================================================================
 def obst_zero_val(d, val, obst):

@@ -1,15 +1,20 @@
-# Standard Python modules
-from standard import *
 
-# ScriNS modules
-from Constants.all      import *
-from Operators.all      import *
+from numpy import reshape
+from scipy import prod
+from scipy.sparse.linalg import bicgstab
 
-from Discretization.adj_n_bnds     import adj_n_bnds
-from Discretization.adj_o_bnds     import adj_o_bnds
-from Discretization.advection      import advection
-from Discretization.create_matrix  import create_matrix
-from Discretization.obst_zero_val  import obst_zero_val
+from scrins.constants.coordinates import X, Y, Z
+from scrins.constants.compass import W, E, S, N, B, T, C
+from scrins.constants.solver import TOL
+from scrins.discretization.adj_n_bnds     import adj_n_bnds
+from scrins.discretization.adj_o_bnds     import adj_o_bnds
+from scrins.discretization.advection      import advection
+from scrins.discretization.create_matrix  import create_matrix
+from scrins.discretization.obst_zero_val  import obst_zero_val
+from scrins.operators.avg import avg
+from scrins.operators.dif import dif
+
+
 
 #==========================================================================
 def calc_uvw(uvw, uvwf, rho, mu, p_tot, e_f, dt, dxyz, obst):

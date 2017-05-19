@@ -1,11 +1,9 @@
-# Standard Python modules
-from standard import *
 
-# ScriNS modules
-from Constants.all      import *
-from Operators.all      import *
-
-from Discretization.obst_zero_val  import obst_zero_val
+from scrins.constants.coordinates import X, Y, Z
+from scrins.constants.compass import W, E, S, N, B, T, C
+from scrins.discretization.obst_zero_val  import obst_zero_val
+from scrins.operators.cat import cat
+from scrins.operators.dif import dif
 
 #==========================================================================
 def vol_balance(uvwf, dxyz, obst):

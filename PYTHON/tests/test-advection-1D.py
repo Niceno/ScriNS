@@ -30,11 +30,6 @@ from scrins.display.print_time_step import print_time_step
 from scrins.operators.avg import avg
 
 
-# ScriNS modules
-# from Constants.all      import *
-# from Operators.all      import *
-# from Display.all        import *
-# from Discretization.all import *
 
 #==========================================================================
 #

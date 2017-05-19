@@ -1,12 +1,10 @@
 from numpy import reshape
-
+from scipy.sparse.linalg import bicgstab
+from scipy import prod
 
 from scrins.discretization.adj_n_bnds import adj_n_bnds
 from scrins.discretization.advection import advection
 from scrins.discretization.create_matrix import create_matrix
-from scipy.sparse.linalg import bicgstab
-from scipy import prod
-
 from scrins.constants.solver import TOL
 
 #==========================================================================

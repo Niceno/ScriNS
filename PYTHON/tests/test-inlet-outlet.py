@@ -1,24 +1,38 @@
-#==========================================================================
-# This scripts tests inlet and outlet conditons at various places in
-# computational domain.
-#
-# Computational domain is a simple box, and Reynolds number is rather 
-# small to avoid instabilities due to vortices getting out from the 
-# outlet. The script selects the case it will run randomply, from the 
-# 16 predefined cases.
-#--------------------------------------------------------------------------
-
 #!/usr/bin/python
 
-# Standard Python modules
-from standard import *
 
-# ScriNS modules
-from Constants.all      import *
-from Operators.all      import *
-from Display.all        import *
-from Discretization.all import *
-from PhysicalModels.all import properties_for_air
+"""
+This scripts tests inlet and outlet conditons at various places in
+computational domain.
+
+Computational domain is a simple box, and Reynolds number is rather
+small to avoid instabilities due to vortices getting out from the
+outlet. The script selects the case it will run randomply, from the
+16 predefined cases.
+"""
+
+from math import floor, sqrt
+from random import random
+
+from numpy import array, zeros
+
+from scrins.physical_models.properties_for_air import properties_for_air
+
+from scrins.constants.boundary_conditions import DIRICHLET, NEUMANN, OUTLET
+from scrins.constants.coordinates import X, Y, Z
+from scrins.constants.compass import W, E, S, N, B, T, C
+from scrins.display.plot_isolines import plot_isolines
+from scrins.discretization.cartesian_grid import cartesian_grid
+from scrins.discretization.nodes import nodes
+from scrins.discretization.create_unknown import create_unknown
+from scrins.discretization.cfl_max import cfl_max
+from scrins.discretization.calc_p import calc_p
+from scrins.discretization.calc_uvw import calc_uvw
+from scrins.discretization.corr_uvw import corr_uvw
+from scrins.discretization.vol_balance import vol_balance
+from scrins.display.print_time_step import print_time_step
+from scrins.operators.avg import avg
+from scrins.operators.par import par
 
 #==========================================================================
 #
@@ -62,91 +76,91 @@ print(TEST)
 # Specify boundary conditions
 if TEST == 11:
   for k in range(0,nz):
-    uf.bnd[W].val[0,ny/4:3*ny/4,k] = +par(0.01, yn[ny/4:3*ny/4+1])    
-    uf.bnd[E].typ[0,ny/4:3*ny/4,k] =  OUTLET  
+    uf.bnd[W].val[0,ny//4:3*ny//4,k] = +par(0.01, yn[ny//4:3*ny//4+1])
+    uf.bnd[E].typ[0,ny//4:3*ny//4,k] =  OUTLET
     
 elif TEST == 12:  # vertical mirror from 11
   for k in range(0,nz):
-    uf.bnd[E].val[0,ny/4:3*ny/4,k] = -par(0.01, yn[ny/4:3*ny/4+1])    
-    uf.bnd[W].typ[0,ny/4:3*ny/4,k] =  OUTLET   
+    uf.bnd[E].val[0,ny//4:3*ny//4,k] = -par(0.01, yn[ny//4:3*ny//4+1])
+    uf.bnd[W].typ[0,ny//4:3*ny//4,k] =  OUTLET
     
 elif TEST == 13:  # rotate 11
   for k in range(0,nz):
-    vf.bnd[S].val[nx/4:3*nx/4,0,k] = +par(0.01, xn[nx/4:3*nx/4+1])    
-    vf.bnd[N].typ[nx/4:3*nx/4,0,k] = OUTLET   
+    vf.bnd[S].val[nx//4:3*nx//4,0,k] = +par(0.01, xn[nx//4:3*nx//4+1])
+    vf.bnd[N].typ[nx//4:3*nx//4,0,k] = OUTLET
     
 elif TEST == 14:  # horizontal mirror 13
   for k in range(0,nz):
-    vf.bnd[N].val[nx/4:3*nx/4,0,k] = -par(0.01, xn[nx/4:3*nx/4+1])
-    vf.bnd[S].typ[nx/4:3*nx/4,0,k] =  OUTLET   
+    vf.bnd[N].val[nx//4:3*nx//4,0,k] = -par(0.01, xn[nx//4:3*nx//4+1])
+    vf.bnd[S].typ[nx//4:3*nx//4,0,k] =  OUTLET
     
 elif TEST == 21:  # 2 exits
   for k in range(0,nz):
-    uf.bnd[W].val[0,  ny/4:3*ny/4,k] = +par(0.01, yn[ny/4:3*ny/4+1])    
-    uf.bnd[E].typ[0,       0:ny/4,k] = OUTLET   
-    uf.bnd[E].typ[0,3*ny/4:ny,    k] = OUTLET   
+    uf.bnd[W].val[0,  ny//4:3*ny//4,k] = +par(0.01, yn[ny//4:3*ny//4+1])
+    uf.bnd[E].typ[0,       0:ny//4,k] = OUTLET
+    uf.bnd[E].typ[0,3*ny//4:ny,    k] = OUTLET
     
 elif TEST == 22:  # vertical mirror 21
   for k in range(0,nz):
-    uf.bnd[E].val[0,  ny/4:3*ny/4,k] = -par(0.01, yn[ny/4:3*ny/4+1])    
-    uf.bnd[W].typ[0,       0:ny/4,k] = OUTLET   
-    uf.bnd[W].typ[0,3*ny/4:ny,    k] = OUTLET   
+    uf.bnd[E].val[0,  ny//4:3*ny//4,k] = -par(0.01, yn[ny//4:3*ny//4+1])
+    uf.bnd[W].typ[0,       0:ny//4,k] = OUTLET
+    uf.bnd[W].typ[0,3*ny//4:ny,    k] = OUTLET
     
 elif TEST == 23:  # rotated 21
   for k in range(0,nz):
-    vf.bnd[S].val[  nx/4:3*nx/4,0,k] = +par(0.01, xn[nx/4:3*nx/4+1])
-    vf.bnd[N].typ[        :nx/4,0,k] = OUTLET   
-    vf.bnd[N].typ[3*nx/4:nx,    0,k] = OUTLET   
+    vf.bnd[S].val[  nx//4:3*nx//4,0,k] = +par(0.01, xn[nx//4:3*nx//4+1])
+    vf.bnd[N].typ[        :nx//4,0,k] = OUTLET
+    vf.bnd[N].typ[3*nx//4:nx,    0,k] = OUTLET
     
 elif TEST == 24:  # horizontal mirror of 23
   for k in range(0,nz):
-    vf.bnd[N].val[  nx/4:3*nx/4,0,k] = -par(0.01, xn[nx/4:3*nx/4+1])
-    vf.bnd[S].typ[        :nx/4,0,k] =  OUTLET   
-    vf.bnd[S].typ[3*nx/4:nx,    0,k] =  OUTLET   
+    vf.bnd[N].val[  nx//4:3*nx//4,0,k] = -par(0.01, xn[nx//4:3*nx//4+1])
+    vf.bnd[S].typ[        :nx//4,0,k] =  OUTLET
+    vf.bnd[S].typ[3*nx//4:nx,    0,k] =  OUTLET
     
 elif TEST == 31:  # inlet and outlet at the same face
   for k in range(0,nz):
-    uf.bnd[W].val[0,3*ny/4:ny,  k] = +par(0.01, yn[3*ny/4:ny+1])    
-    uf.bnd[W].typ[0,      :ny/4,k] =  OUTLET   
+    uf.bnd[W].val[0,3*ny//4:ny,  k] = +par(0.01, yn[3*ny//4:ny+1])
+    uf.bnd[W].typ[0,      :ny//4,k] =  OUTLET
     
 elif TEST == 32:  # vertical mirror of 31
   for k in range(0,nz):
-    uf.bnd[E].val[0,3*ny/4:ny,  k] = -par(0.01, yn[3*ny/4:ny+1])
-    uf.bnd[E].typ[0,     0:ny/4,k] =  OUTLET   
+    uf.bnd[E].val[0,3*ny//4:ny,  k] = -par(0.01, yn[3*ny//4:ny+1])
+    uf.bnd[E].typ[0,     0:ny//4,k] =  OUTLET
     
 elif TEST == 33:  # rotated 31
   for k in range(0,nz):
-    vf.bnd[S].val[3*nx/4:nx,  0,k] = +par(0.01, xn[3*nx/4:nx+1])    
-    vf.bnd[S].typ[      :nx/4,0,k] =  OUTLET   
+    vf.bnd[S].val[3*nx//4:nx,  0,k] = +par(0.01, xn[3*nx//4:nx+1])
+    vf.bnd[S].typ[      :nx//4,0,k] =  OUTLET
     
 elif TEST == 34:  # horizontal mirror of 33
   for k in range(0,nz):
-    vf.bnd[N].val[3*nx/4:nx,  0,k] = -par(0.01, xn[3*nx/4:nx+1])    
-    vf.bnd[N].typ[      :nx/4,0,k] =  OUTLET   
+    vf.bnd[N].val[3*nx//4:nx,  0,k] = -par(0.01, xn[3*nx//4:nx+1])
+    vf.bnd[N].typ[      :nx//4,0,k] =  OUTLET
     
 elif TEST == 41:  # inlet and outlet at the same face, one more outlet
   for k in range(0,nz):
-    uf.bnd[W].val[0,3*ny/4:ny,  k] = +par(0.01, yn[3*ny/4:ny+1])
-    uf.bnd[W].typ[0,      :ny/8,k] = OUTLET   
-    uf.bnd[E].typ[0,      :ny/8,k] = OUTLET   
+    uf.bnd[W].val[0,3*ny//4:ny,  k] = +par(0.01, yn[3*ny//4:ny+1])
+    uf.bnd[W].typ[0,      :ny//8,k] = OUTLET
+    uf.bnd[E].typ[0,      :ny//8,k] = OUTLET
     
 elif TEST == 42:  # vertical mirror of 41
   for k in range(0,nz):
-    uf.bnd[E].val[0,3*ny/4:ny,  k] = -par(0.01, yn[3*ny/4:ny+1])
-    uf.bnd[E].typ[0,      :ny/8,k] = OUTLET   
-    uf.bnd[W].typ[0,      :ny/8,k] = OUTLET   
+    uf.bnd[E].val[0,3*ny//4:ny,  k] = -par(0.01, yn[3*ny//4:ny+1])
+    uf.bnd[E].typ[0,      :ny//8,k] = OUTLET
+    uf.bnd[W].typ[0,      :ny//8,k] = OUTLET
     
 elif TEST == 43:  # rotated 41
   for k in range(0,nz):
-    vf.bnd[S].val[3*nx/4:nx,  0,k] = +par(0.01, xn[3*nx/4:nx+1])
-    vf.bnd[S].typ[     0:nx/8,0,k] =  OUTLET   
-    vf.bnd[N].typ[     0:nx/8,0,k] =  OUTLET   
+    vf.bnd[S].val[3*nx//4:nx,  0,k] = +par(0.01, xn[3*nx//4:nx+1])
+    vf.bnd[S].typ[     0:nx//8,0,k] =  OUTLET
+    vf.bnd[N].typ[     0:nx//8,0,k] =  OUTLET
     
 elif TEST == 44:  # horizontal mirror of 43
   for k in range(0,nz):
-    vf.bnd[N].val[3*ny/4:nx,  0,k] = -par(0.01, xn[3*nx/4:nx+1])
-    vf.bnd[N].typ[      :nx/8,0,k] =  OUTLET   
-    vf.bnd[S].typ[      :nx/8,0,k] =  OUTLET 
+    vf.bnd[N].val[3*ny//4:nx,  0,k] = -par(0.01, xn[3*nx//4:nx+1])
+    vf.bnd[N].typ[      :nx//8,0,k] =  OUTLET
+    vf.bnd[S].typ[      :nx//8,0,k] =  OUTLET
 
 for j in (B,T):
   uf.bnd[j].typ[:] = NEUMANN     

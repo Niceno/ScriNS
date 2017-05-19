@@ -1,9 +1,13 @@
-# Standard Python modules
-from standard import *
+from math import floor
 
-# ScriNS modules
-from Constants.all      import *
-from Operators.all      import *
+from matplotlib import cm
+from matplotlib import pyplot as plt
+from numpy import linspace, meshgrid, transpose
+
+from scrins.constants.coordinates import X, Y, Z
+from scrins.constants.compass import W, E, S, N, B, T, C
+from scrins.operators.avg import avg
+from scrins.operators.cat import cat
 
 #--------------------------------------------------------------------------
 def plot_isolines(phi, uvw, xyzn, d):

@@ -1,9 +1,6 @@
 # Standard Python modules
-from standard import *
 
-# ScriNS modules
-from Constants.all      import *
-from Operators.all      import *
+from numpy import ones
 
 #==========================================================================
 def properties_for_air(rc):

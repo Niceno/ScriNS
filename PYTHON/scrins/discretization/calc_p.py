@@ -1,14 +1,11 @@
-# Standard Python modules
-from standard import *
+from numpy import reshape, prod, zeros
+from scipy.sparse.linalg import bicgstab
 
-# ScriNS modules
-from Constants.all      import *
-from Operators.all      import *
-
-from Discretization.adj_n_bnds     import adj_n_bnds
-from Discretization.create_matrix  import create_matrix
-from Discretization.vol_balance    import vol_balance
-from Discretization.obst_zero_val  import obst_zero_val
+from scrins.discretization.adj_n_bnds     import adj_n_bnds
+from scrins.discretization.create_matrix  import create_matrix
+from scrins.discretization.vol_balance    import vol_balance
+from scrins.discretization.obst_zero_val  import obst_zero_val
+from scrins.constants.solver import TOL
 
 #==========================================================================
 def calc_p(p, uvwf, rho, dt, dxyz, obst ):

@@ -1,6 +1,8 @@
 
 from scipy import logical_not as lnot
+from scipy import maximum as mx
 
+from scrins.constants.coordinates import X, Y, Z
 from scrins.constants.compass import W, E, S, N, B, T, C
 from scrins.operators.dif import dif
 

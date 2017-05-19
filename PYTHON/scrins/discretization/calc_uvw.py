@@ -11,7 +11,9 @@ from scrins.discretization.advection      import advection
 from scrins.discretization.create_matrix  import create_matrix
 from scrins.discretization.obst_zero_val  import obst_zero_val
 from scrins.operators.avg import avg
+from scrins.operators.cat import cat
 from scrins.operators.dif import dif
+
 
 
 

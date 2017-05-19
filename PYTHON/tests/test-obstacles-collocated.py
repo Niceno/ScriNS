@@ -1,42 +1,53 @@
-#==========================================================================
-#                                                       o ... scalars
-#                          (n)                          - ... u velocities      
-#                                                       | ... v velocities
-#       +-------+-------+-------+-------+-------+          
-#       |       |       |       |       |       |            
-#       |   o   -   o   -   o   -   o   -   o   | j=ny     
-#       |       |       |       |       |       | 
-#       +---|---+---|---+---|---+---|---+---|---+     j=nym     
-#       |       |       |       |       |       |
-#       |   o   -   o   -   o   -   o   -   o   | ...
-#       |       |       |       |       |       |
-#  (w)  +---|---+---|---+---|---+---|---+---|---+    j=2        (e)
-#       |       |       |       |       |       |
-#       |   o   -   o   -   o   -   o   -   o   | j=2
-#       |       |       |       |       |       |
-#       +---|---+---|---+---|---+---|---+---|---+    j=1 (v-velocity)
-#       |       |       |       |       |       |
-#       |   o   -   o   -   o   -   o   -   o   | j=1   (scalar cell)
-#       |       |       |       |       |       |
-#       +-------+-------+-------+-------+-------+
-#  y       i=1     i=2     ...     ...     i=nx      (scalar cells)
-# ^            i=1      i=2    ...    i=nxm      (u-velocity cells)
-# |
-# +---> x                  (s)
-#  
-#--------------------------------------------------------------------------
-
 #!/usr/bin/python
 
-# Standard Python modules
-from standard import *
+"""
+                                                       o ... scalars
+                          (n)                          - ... u velocities
+                                                       | ... v velocities
+       +-------+-------+-------+-------+-------+
+       |       |       |       |       |       |
+       |   o   -   o   -   o   -   o   -   o   | j=ny
+       |       |       |       |       |       |
+       +---|---+---|---+---|---+---|---+---|---+     j=nym
+       |       |       |       |       |       |
+       |   o   -   o   -   o   -   o   -   o   | ...
+       |       |       |       |       |       |
+  (w)  +---|---+---|---+---|---+---|---+---|---+    j=2        (e)
+       |       |       |       |       |       |
+       |   o   -   o   -   o   -   o   -   o   | j=2
+       |       |       |       |       |       |
+       +---|---+---|---+---|---+---|---+---|---+    j=1 (v-velocity)
+       |       |       |       |       |       |
+       |   o   -   o   -   o   -   o   -   o   | j=1   (scalar cell)
+       |       |       |       |       |       |
+       +-------+-------+-------+-------+-------+
+  y       i=1     i=2     ...     ...     i=nx      (scalar cells)
+ ^            i=1      i=2    ...    i=nxm      (u-velocity cells)
+ |
+ +---> x                  (s)
+"""
 
-# ScriNS modules
-from Constants.all      import *
-from Operators.all      import *
-from Display.all        import *
-from Discretization.all import *
-from PhysicalModels.all import *
+
+from numpy import array, zeros
+
+from scrins.physical_models.properties_for_air import properties_for_air
+from scrins.constants.boundary_conditions import DIRICHLET, NEUMANN, OUTLET
+from scrins.constants.coordinates import X, Y, Z
+from scrins.constants.gravitational_constant import G
+from scrins.constants.compass import W, E, S, N, B, T, C
+from scrins.display.plot_isolines import plot_isolines
+from scrins.discretization.adj_n_bnds import adj_n_bnds
+from scrins.discretization.cartesian_grid import cartesian_grid
+from scrins.discretization.nodes import nodes
+from scrins.discretization.create_unknown import create_unknown
+from scrins.discretization.cfl_max import cfl_max
+from scrins.discretization.calc_p import calc_p
+from scrins.discretization.calc_uvw import calc_uvw
+from scrins.discretization.corr_uvw import corr_uvw
+from scrins.discretization.vol_balance import vol_balance
+from scrins.display.print_time_step import print_time_step
+from scrins.operators.avg import avg
+from scrins.operators.par import par
 
 #==========================================================================
 #

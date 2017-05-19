@@ -1,4 +1,5 @@
-from numpy import linspace, zeros
+from numpy import array, linspace, matrix, zeros
+from numpy.linalg import solve
 
 #==========================================================================
 def nodes(*args):

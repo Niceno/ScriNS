@@ -1,24 +1,35 @@
-#==========================================================================
-# Solves flow in a channel with stable or unstable stratification.  
-# The type of stratification is set by parameter "STRATIFICATION"
-#
-# Uses non-Boussinesq model for buoyancy term; i.e. density depends on
-# temperature.
-#
-# Gravity term is engaged gradually to avoid vortex at the outlet.
-#--------------------------------------------------------------------------
-
 #!/usr/bin/python
 
-# Standard Python modules
-from standard import *
+"""
+Solves flow in a channel with stable or unstable stratification.
+The type of stratification is set by parameter "STRATIFICATION"
 
-# ScriNS modules
-from Constants.all      import *
-from Operators.all      import *
-from Display.all        import *
-from Discretization.all import *
-from PhysicalModels.all import *
+Uses non-Boussinesq model for buoyancy term; i.e. density depends on
+temperature.
+
+Gravity term is engaged gradually to avoid vortex at the outlet.
+"""
+
+from numpy import linspace, zeros
+
+from scrins.constants.boundary_conditions import DIRICHLET, NEUMANN, OUTLET
+from scrins.constants.coordinates import X, Y, Z
+from scrins.constants.compass import W, E, S, N, B, T, C
+from scrins.constants.gravitational_constant import G
+from scrins.display.plot_isolines import plot_isolines
+from scrins.discretization.adj_n_bnds import adj_n_bnds
+from scrins.discretization.cartesian_grid import cartesian_grid
+from scrins.discretization.nodes import nodes
+from scrins.discretization.create_unknown import create_unknown
+from scrins.discretization.cfl_max import cfl_max
+from scrins.discretization.calc_p import calc_p
+from scrins.discretization.calc_t import calc_t
+from scrins.discretization.calc_uvw import calc_uvw
+from scrins.discretization.corr_uvw import corr_uvw
+from scrins.discretization.vol_balance import vol_balance
+from scrins.display.print_time_step import print_time_step
+from scrins.operators.avg import avg
+from scrins.operators.par import par
 
 #==========================================================================
 #

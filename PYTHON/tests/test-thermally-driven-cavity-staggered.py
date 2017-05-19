@@ -1,42 +1,52 @@
-#==========================================================================
-# This program solves thermally driven cavity at Ra = 1.0e6, 
-# in dimensional and non-dimensional forms.
-#
-# Equations in dimensional form:
-#
-# D(rho u)/Dt = nabla(mu (nabla u)^T) - nabla p + g 
-# D(rho cp T)/Dt = nabla(lambda (nabla T)^T) 
-#
-# Equations in non-dimensional form, for natural convection problems
-#
-# DU/Dt = nabla(1/sqrt(Gr) (nabla U)^T) - nabla P + theta 
-# D theta/Dt = nabla(1/(Pr*sqrt(Gr)) (nabla theta)^T) 
-#
-#--------------------------------------------------------------------------
-# For thermally driven cavity, with properties of air at 60 deg:
-#
-# nu   =  1.89035E-05;
-# beta =  0.003;
-# dT   = 17.126;
-# L    =  0.1;
-# Pr   = 0.709;
-#
-# characteristic non-dimensional numbers are:
-# Gr = 1.4105E+06
-# Ra = 1.0000E+06
-#--------------------------------------------------------------------------
-
 #!/usr/bin/python
 
-# Standard Python modules
-from standard import *
+"""
+This program solves thermally driven cavity at Ra = 1.0e6,
+in dimensional and non-dimensional forms.
 
-# ScriNS modules
-from Constants.all      import *
-from Operators.all      import *
-from Display.all        import *
-from Discretization.all import *
-from PhysicalModels.all import *
+Equations in dimensional form:
+
+D(rho u)/Dt = nabla(mu (nabla u)^T) - nabla p + g
+D(rho cp T)/Dt = nabla(lambda (nabla T)^T)
+
+Equations in non-dimensional form, for natural convection problems
+
+DU/Dt = nabla(1/sqrt(Gr) (nabla U)^T) - nabla P + theta
+D theta/Dt = nabla(1/(Pr*sqrt(Gr)) (nabla theta)^T)
+
+--------------------------------------------------------------------------
+For thermally driven cavity, with properties of air at 60 deg:
+
+nu   =  1.89035E-05;
+beta =  0.003;
+dT   = 17.126;
+L    =  0.1;
+Pr   = 0.709;
+
+characteristic non-dimensional numbers are:
+Gr = 1.4105E+06
+Ra = 1.0000E+06
+"""
+
+from numpy import sqrt, zeros
+
+from scrins.constants.boundary_conditions import DIRICHLET, NEUMANN, OUTLET
+from scrins.constants.coordinates import X, Y, Z
+from scrins.constants.compass import W, E, S, N, B, T, C
+from scrins.display.plot_isolines import plot_isolines
+from scrins.discretization.adj_n_bnds import adj_n_bnds
+from scrins.discretization.cartesian_grid import cartesian_grid
+from scrins.discretization.nodes import nodes
+from scrins.discretization.create_unknown import create_unknown
+from scrins.discretization.cfl_max import cfl_max
+from scrins.discretization.calc_p import calc_p
+from scrins.discretization.calc_t import calc_t
+from scrins.discretization.calc_uvw import calc_uvw
+from scrins.discretization.corr_uvw import corr_uvw
+from scrins.discretization.vol_balance import vol_balance
+from scrins.display.print_time_step import print_time_step
+from scrins.operators.avg import avg
+from scrins.operators.par import par
 
 #==========================================================================
 #

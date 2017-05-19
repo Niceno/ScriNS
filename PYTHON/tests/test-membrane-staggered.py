@@ -9,21 +9,6 @@ place, in the main function.  The convergence of the conditions at the
 membrane seems to be rather fast too.
 """
 
-
-#
-# # Standard Python modules
-# from standard import *
-#
-# # ScriNS modules
-# from Constants.all      import *
-# from Operators.all      import *
-# from Display.all        import *
-# from Discretization.all import *
-# from PhysicalModels.all import *
-
-from math import floor, sqrt
-from random import random
-
 from numpy import array, zeros
 
 from scrins.physical_models.properties_for_air import properties_for_air

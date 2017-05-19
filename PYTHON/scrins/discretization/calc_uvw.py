@@ -6,7 +6,6 @@ from scipy.sparse.linalg import bicgstab
 from scrins.constants.coordinates import X, Y, Z
 from scrins.constants.compass import W, E, S, N, B, T, C
 from scrins.constants.solver import TOL
-from scrins.discretization.adj_n_bnds     import adj_n_bnds
 from scrins.discretization.adj_o_bnds     import adj_o_bnds
 from scrins.discretization.advection      import advection
 from scrins.discretization.create_matrix  import create_matrix

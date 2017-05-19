@@ -1,23 +1,52 @@
-#==========================================================================
-# Demonstrates the membrane for Kerstin.  Two domains are computed
-# independently, but linked through boundary conditions in an inner loop
-# within each time step.  This seems the most practical approach of all
-# because the membrane model implementations are very obvious, at one
-# place, in the main function.  The convergence of the conditions at the
-# membrane seems to be rather fast too.
-#--------------------------------------------------------------------------
-
 #!/usr/bin/python
 
-# Standard Python modules
-from standard import *
+"""
+Demonstrates the membrane for Kerstin.  Two domains are computed
+independently, but linked through boundary conditions in an inner loop
+within each time step.  This seems the most practical approach of all
+because the membrane model implementations are very obvious, at one
+place, in the main function.  The convergence of the conditions at the
+membrane seems to be rather fast too.
+"""
 
-# ScriNS modules
-from Constants.all      import *
-from Operators.all      import *
-from Display.all        import *
-from Discretization.all import *
-from PhysicalModels.all import *
+
+#
+# # Standard Python modules
+# from standard import *
+#
+# # ScriNS modules
+# from Constants.all      import *
+# from Operators.all      import *
+# from Display.all        import *
+# from Discretization.all import *
+# from PhysicalModels.all import *
+
+from math import floor, sqrt
+from random import random
+
+from numpy import array, zeros
+
+from scrins.physical_models.properties_for_air import properties_for_air
+from scrins.physical_models.properties_for_water import properties_for_water
+from scrins.constants.boundary_conditions import DIRICHLET, NEUMANN, OUTLET
+from scrins.constants.coordinates import X, Y, Z
+from scrins.constants.gravitational_constant import G
+from scrins.constants.compass import W, E, S, N, B, T, C
+from scrins.display.plot_isolines import plot_isolines
+from scrins.discretization.adj_n_bnds import adj_n_bnds
+from scrins.discretization.cartesian_grid import cartesian_grid
+from scrins.discretization.nodes import nodes
+from scrins.discretization.create_unknown import create_unknown
+from scrins.discretization.cfl_max import cfl_max
+from scrins.discretization.calc_p import calc_p
+from scrins.discretization.calc_t import calc_t
+from scrins.discretization.calc_uvw import calc_uvw
+from scrins.discretization.corr_uvw import corr_uvw
+from scrins.discretization.vol_balance import vol_balance
+from scrins.display.print_time_step import print_time_step
+from scrins.operators.avg import avg
+from scrins.operators.par import par
+
 
 #==========================================================================
 #

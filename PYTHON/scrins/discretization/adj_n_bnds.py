@@ -8,7 +8,10 @@ from scrins.constants.compass import W, E, S, N, B, T
 
 
 def adj_n_bnds(phi):
-    """Copies last domain cell values to Neumann boundary condition values.
+    """
+    Copies last domain cell values to Neumann boundary condition values.
+    :param phi: pressure TODO: why here phi and not p?
+    :return: None
     """
     # These arrays will hold values true (0) in cells with boundary ...
     # ... condition of Neumann type, and false (0) otherwise

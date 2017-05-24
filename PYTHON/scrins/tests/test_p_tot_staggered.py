@@ -32,118 +32,124 @@ from scrins.display.print_time_step import print_time_step
 from scrins.operators.avg import avg
 from scrins.operators.par import par
 
-#==========================================================================
-#
-# Define problem
-#
-#==========================================================================
+def main(show_plot=True):
 
-# Node coordinates
-xn = nodes(0, 10,   80)
-yn = nodes(0,  1,   20)
-zn = nodes(0,  0.5,  5)
+    #==========================================================================
+    #
+    # Define problem
+    #
+    #==========================================================================
 
-# Cell coordinates
-xc = avg(xn)
-yc = avg(yn)
-zc = avg(zn)
+    # Node coordinates
+    xn = nodes(0, 10,   80)
+    yn = nodes(0,  1,   20)
+    zn = nodes(0,  0.5,  5)
 
-# Cell dimensions
-nx,ny,nz, dx,dy,dz, rc,ru,rv,rw = cartesian_grid(xn,yn,zn)
+    # Cell coordinates
+    xc = avg(xn)
+    yc = avg(yn)
+    zc = avg(zn)
 
-# Set physical properties
-rho   = zeros(rc)
-mu    = zeros(rc)
-kappa = zeros(rc)
-cap   = zeros(rc)
-rho   [:] =    1.15  # density              [kg/m^3]
-mu    [:] =    0.1   # viscosity            [Pa s]
-     
-# Time-stepping parameters
-dt  =   0.1  # time step
-ndt = 200    # number of time steps
+    # Cell dimensions
+    nx,ny,nz, dx,dy,dz, rc,ru,rv,rw = cartesian_grid(xn,yn,zn)
 
-# Create unknowns; names, positions and sizes
-uf = create_unknown('face-u-vel',  X, ru, DIRICHLET)
-vf = create_unknown('face-v-vel',  Y, rv, DIRICHLET)
-wf = create_unknown('face-w-vel',  Z, rw, DIRICHLET)
-p  = create_unknown('pressure',    C, rc, NEUMANN)
-p_tot = zeros(rc)
+    # Set physical properties
+    rho   = zeros(rc)
+    mu    = zeros(rc)
+    kappa = zeros(rc)
+    cap   = zeros(rc)
+    rho   [:] =    1.15  # density              [kg/m^3]
+    mu    [:] =    0.1   # viscosity            [Pa s]
 
-# Specify boundary conditions
-uf.bnd[W].typ[:1,:,:] = DIRICHLET 
-for k in range(0,nz):
-  uf.bnd[W].val[:1,:,k]  = par(0.1, yn)
+    # Time-stepping parameters
+    dt  =   0.1  # time step
+    ndt = 200    # number of time steps
 
-uf.bnd[E].typ[:1,:,:] = OUTLET 
+    # Create unknowns; names, positions and sizes
+    uf = create_unknown('face-u-vel',  X, ru, DIRICHLET)
+    vf = create_unknown('face-v-vel',  Y, rv, DIRICHLET)
+    wf = create_unknown('face-w-vel',  Z, rw, DIRICHLET)
+    p  = create_unknown('pressure',    C, rc, NEUMANN)
+    p_tot = zeros(rc)
 
-for j in (B,T):
-  uf.bnd[j].typ[:] = NEUMANN     
-  vf.bnd[j].typ[:] = NEUMANN     
-  wf.bnd[j].typ[:] = NEUMANN     
+    # Specify boundary conditions
+    uf.bnd[W].typ[:1,:,:] = DIRICHLET
+    for k in range(0,nz):
+      uf.bnd[W].val[:1,:,k]  = par(0.1, yn)
 
-adj_n_bnds(p)
+    uf.bnd[E].typ[:1,:,:] = OUTLET
 
-obst = zeros(rc)
+    for j in (B,T):
+      uf.bnd[j].typ[:] = NEUMANN
+      vf.bnd[j].typ[:] = NEUMANN
+      wf.bnd[j].typ[:] = NEUMANN
 
-#==========================================================================
-#
-# Solution algorithm
-#
-#==========================================================================
+    adj_n_bnds(p)
 
-#-----------
-#
-# Time loop 
-#
-#-----------
-for ts in range(1,ndt+1):
+    obst = zeros(rc)
 
-  print_time_step(ts)
-  
-  #------------------
-  # Store old values
-  #------------------
-  uf.old[:] = uf.val[:]
-  vf.old[:] = vf.val[:]
-  wf.old[:] = wf.val[:]
-  
-  #-----------------------
-  # Momentum conservation
-  #-----------------------
-  g_v = -G * avg(Y, rho) * min(ts/100,1)
-  
-  ef = zeros(ru), g_v, zeros(rw)
-    
-  calc_uvw((uf,vf,wf), (uf,vf,wf), rho, mu,  \
-           p_tot, ef, dt, (dx,dy,dz), obst)
-  
-  #----------
-  # Pressure
-  #----------
-  calc_p(p, (uf,vf,wf), rho, dt, (dx,dy,dz), obst)
-  
-  p_tot = p_tot + p.val
-  
-  #---------------------
-  # Velocity correction
-  #---------------------
-  corr_uvw((uf,vf,wf), p, rho, dt, (dx,dy,dz), obst)
- 
-  # Compute volume balance for checking 
-  err = vol_balance((uf,vf,wf), (dx,dy,dz), obst)
-  print('Maximum volume error after correction: %12.5e' % abs(err).max())
+    #==========================================================================
+    #
+    # Solution algorithm
+    #
+    #==========================================================================
 
-  # Check the CFL number too 
-  cfl = cfl_max((uf,vf,wf), dt, (dx,dy,dz))
-  print('Maximum CFL number: %12.5e' % cfl)
+    #-----------
+    #
+    # Time loop
+    #
+    #-----------
+    for ts in range(1,ndt+1):
 
-#==========================================================================
-#
-# Visualisation
-#
-#==========================================================================
+      print_time_step(ts)
 
-  if ts % 20 == 0:
-    plot_isolines(p_tot, (uf,vf,wf), (xn,yn,zn), Z)
-    plot_isolines(p.val, (uf,vf,wf), (xn,yn,zn), Z)    
+      #------------------
+      # Store old values
+      #------------------
+      uf.old[:] = uf.val[:]
+      vf.old[:] = vf.val[:]
+      wf.old[:] = wf.val[:]
+
+      #-----------------------
+      # Momentum conservation
+      #-----------------------
+      g_v = -G * avg(Y, rho) * min(ts/100,1)
+
+      ef = zeros(ru), g_v, zeros(rw)
+
+      calc_uvw((uf,vf,wf), (uf,vf,wf), rho, mu,  \
+               p_tot, ef, dt, (dx,dy,dz), obst)
+
+      #----------
+      # Pressure
+      #----------
+      calc_p(p, (uf,vf,wf), rho, dt, (dx,dy,dz), obst)
+
+      p_tot = p_tot + p.val
+
+      #---------------------
+      # Velocity correction
+      #---------------------
+      corr_uvw((uf,vf,wf), p, rho, dt, (dx,dy,dz), obst)
+
+      # Compute volume balance for checking
+      err = vol_balance((uf,vf,wf), (dx,dy,dz), obst)
+      print('Maximum volume error after correction: %12.5e' % abs(err).max())
+
+      # Check the CFL number too
+      cfl = cfl_max((uf,vf,wf), dt, (dx,dy,dz))
+      print('Maximum CFL number: %12.5e' % cfl)
+
+    #==========================================================================
+    #
+    # Visualisation
+    #
+    #==========================================================================
+
+      if show_plot:
+          if ts % 20 == 0:
+            plot_isolines(p_tot, (uf,vf,wf), (xn,yn,zn), Z)
+            plot_isolines(p.val, (uf,vf,wf), (xn,yn,zn), Z)
+
+if __name__ == '__main__':
+    main()

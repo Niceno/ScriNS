@@ -2,12 +2,15 @@
 Run all test
 """
 
-from tests import test_advection_1D, test_inlet_outlet
+import types
 
+from scrins import tests
 
 def main():
-    tests = [test_advection_1D, test_inlet_outlet]
-    for test in tests:
+    test_mods = [obj for name, obj in vars(tests).items()
+                 if name.startswith('test_') and name != 'test_all' and
+                 isinstance(obj, types.ModuleType)]
+    for test in test_mods:
         test.main(show_plot=False)
 
 if __name__ == '__main__':

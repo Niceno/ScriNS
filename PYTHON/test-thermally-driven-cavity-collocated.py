@@ -157,4 +157,5 @@ for ts in range(1,ndt+1):
 
   if ts % 20 == 0:
     plot_isolines(t.val, (uc,vc,wc), (xn,yn,zn), Z)
+    plot_tecplot("results.dat", (xn,yn,zn), (uc,vc,wc,t))
   

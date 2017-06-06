@@ -15,7 +15,7 @@ def calc_p(p, uvwf, rho, dt, dxyz, obst):
     """
     Calculating the Pressure.
     """
-    # --------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # Fetch the resolution
     rc = p.val.shape
     # Create linear system

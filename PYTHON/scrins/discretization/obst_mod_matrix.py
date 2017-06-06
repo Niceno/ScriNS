@@ -107,7 +107,7 @@ def obst_mod_matrix(phi, c, obst, obc):
             c.T[:] = c.T[:] * lnot(obst_x)
 
             # Increase coefficients close to obst (makes sense for momentum)
-            sol_y = dif(Y, obst_x)  # will be +1 north of obst, -1 south of obst
+            sol_y = dif(Y, obst_x)  # will be +1 north of obst,-1 south of obst
             corr = 1 + (sol_y > 0)
             c.N[:, :-1, :] = c.N[:, :-1, :] * corr
             corr = 1 + (sol_y < 0)
@@ -134,13 +134,13 @@ def obst_mod_matrix(phi, c, obst, obc):
             c.T[:] = c.T[:] * lnot(obst_y)
 
             # Increase coefficients close to obst (makes sense for momentum)
-            sol_x = dif(X, obst_y)  # will be +1 north of obst, -1 south of obst
+            sol_x = dif(X, obst_y)  # will be +1 north of obst,-1 south of obst
             corr = 1 + (sol_x > 0)
             c.E[:-1, :, :] = c.E[:-1, :, :] * corr
             corr = 1 + (sol_x < 0)
             c.W[1:, :, :] = c.W[1:, :, :] * corr
 
-            sol_z = dif(Z, obst_y)  # will be +1 north of obst, -1 south of obst
+            sol_z = dif(Z, obst_y)  # will be +1 north of obst,-1 south of obst
             corr = 1 + (sol_z > 0)
             c.T[:, :, :-1] = c.T[:, :, :-1] * corr
             corr = 1 + (sol_z < 0)
@@ -161,13 +161,13 @@ def obst_mod_matrix(phi, c, obst, obc):
             c.T[:] = c.T[:] * lnot(obst_z)
 
             # Increase coefficients close to obst (makes sense for momentum)
-            sol_x = dif(X, obst_z)  # will be +1 north of obst, -1 south of obst
+            sol_x = dif(X, obst_z)  # will be +1 north of obst,-1 south of obst
             corr = 1 + (sol_x > 0)
             c.E[:-1, :, :] = c.E[:-1, :, :] * corr
             corr = 1 + (sol_x < 0)
             c.W[1:, :, :] = c.W[1:, :, :] * corr
 
-            sol_y = dif(Y, obst_z)  # will be +1 north of obst, -1 south of obst
+            sol_y = dif(Y, obst_z)  # will be +1 north of obst,-1 south of obst
             corr = 1 + (sol_y > 0)
             c.N[:, :-1, :] = c.N[:, :-1, :] * corr
             corr = 1 + (sol_y < 0)

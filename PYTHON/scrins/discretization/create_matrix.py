@@ -58,31 +58,37 @@ def create_matrix(phi, inn, mu, dxyz, obst, obc):
     sz = dx * dy
 
     if d != X:
-        c.W[:] = cat(X, (                                  \
-        avg(d, mu[:1, :, :])* avg(d, sx[:1, :, :]) / avg(d, (dx[:1, :, :])/2.0), \
-        avg(d, avg(X, mu))* avg(d, avg(X, sx)) / avg(d, avg(X, dx))))
+        c.W[:] = cat(X, (                                    \
+        avg(d, mu[:1, :, :])                                 \
+        * avg(d, sx[:1, :, :]) / avg(d, (dx[:1, :, :])/2.0), \
+        avg(d, avg(X, mu)) * avg(d, avg(X, sx)) / avg(d, avg(X, dx))))
 
-        c.E[:] = cat(X, (                                                    \
-        avg(d, avg(X, mu))  * avg(d, avg(X, sx))  / avg(d, avg(X, dx)),       \
-        avg(d, mu[-1:, :, :])* avg(d, sx[-1:, :, :])/ avg(d, (dx[-1:, :, :])/2.0)))
+        c.E[:] = cat(X, (                                               \
+        avg(d, avg(X, mu)) * avg(d, avg(X, sx))  / avg(d, avg(X, dx)),  \
+        avg(d, mu[-1:, :, :])                                           \
+        * avg(d, sx[-1:, :, :])/ avg(d, (dx[-1:, :, :])/2.0)))
 
     if d != Y:
-        c.S[:] = cat(Y, (                                                     \
-        avg(d, mu[:, :1, :]) * avg(d, sy[:, :1, :]) / avg(d, (dy[:, :1, :])/2.0),  \
-        avg(d, avg(Y, mu))  * avg(d, avg(Y, sy))  / avg(d, avg(Y, dy))))
+        c.S[:] = cat(Y, (                                               \
+        avg(d, mu[:, :1, :])                                            \
+        * avg(d, sy[:, :1, :]) / avg(d, (dy[:, :1, :])/2.0),            \
+        avg(d, avg(Y, mu)) * avg(d, avg(Y, sy))  / avg(d, avg(Y, dy))))
 
-        c.N[:] = cat(Y, (                                                     \
-        avg(d, avg(Y, mu))  * avg(d, avg(Y, sy))  / avg(d, avg(Y, dy)),       \
-        avg(d, mu[:, -1:, :]) * avg(d, sy[:, -1:, :]) / avg(d, (dy[:, -1:, :])/2.0)))
+        c.N[:] = cat(Y, (                                                \
+        avg(d, avg(Y, mu))  * avg(d, avg(Y, sy))  / avg(d, avg(Y, dy)),  \
+        avg(d, mu[:, -1:, :])                                            \
+        * avg(d, sy[:, -1:, :]) / avg(d, (dy[:, -1:, :])/2.0)))
 
     if d != Z:
-        c.B[:] = cat(Z, (                                                     \
-        avg(d, mu[:, :, :1]) * avg(d, sz[:, :, :1]) / avg(d, (dz[:, :, :1])/2.0),  \
-        avg(d, avg(Z, mu))  * avg(d, avg(Z, sz))  / avg(d, avg(Z, dz))))
+        c.B[:] = cat(Z, (                                                \
+        avg(d, mu[:, :, :1])                                             \
+        * avg(d, sz[:, :, :1]) / avg(d, (dz[:, :, :1])/2.0),             \
+        avg(d, avg(Z, mu)) * avg(d, avg(Z, sz))  / avg(d, avg(Z, dz))))
 
-        c.T[:] = cat(Z, (                                                     \
-        avg(d, avg(Z, mu))  * avg(d, avg(Z, sz))  / avg(d, avg(Z, dz)),       \
-        avg(d, mu[:, :, -1:]) * avg(d, sz[:, :, -1:]) / avg(d, (dz[:, :, -1:])/2.0)))
+        c.T[:] = cat(Z, (                                                \
+        avg(d, avg(Z, mu))  * avg(d, avg(Z, sz))  / avg(d, avg(Z, dz)),  \
+        avg(d, mu[:, :, -1:])                                            \
+        * avg(d, sz[:, :, -1:]) / avg(d, (dz[:, :, -1:])/2.0)))
 
      # ---------------------------------
      # Correct for staggered variables

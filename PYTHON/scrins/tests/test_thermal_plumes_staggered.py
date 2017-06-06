@@ -33,15 +33,19 @@ from scrins.operators.par import par
 
 
 def main(show_plot=True):
-    # ==========================================================================
+    """
+    Docstring.
+    """
+
+    # =========================================================================
     #
     # Define problem
     #
-    # ==========================================================================
+    # =========================================================================
 
     # Node coordinates
     xn = nodes(0, 10, 300)
-    yn = nodes(0, 1, 40, 1 / 500, 1 / 500)
+    yn = nodes(0, 1, 40, 1/500, 1/500)
     zn = nodes(0, 3, 3)
 
     # Cell coordinates
@@ -76,10 +80,10 @@ def main(show_plot=True):
     # Specify boundary conditions
     uf.bnd[W].typ[:1, :, :] = DIRICHLET
     for k in range(0, nz):
-        uf.bnd[W].val[:1, :, k] = par(1.0, yn);
+        uf.bnd[W].val[:1, :, k] = par(1.0, yn)
 
     uf.bnd[E].typ[:1, :, :] = OUTLET
-    uf.bnd[E].val[:1, :, :] = 1.0;
+    uf.bnd[E].val[:1, :, :] = 1.0
 
     for j in (B, T):
         uf.bnd[j].typ[:] = NEUMANN
@@ -88,10 +92,10 @@ def main(show_plot=True):
 
     t.bnd[W].typ[:1, :, :] = DIRICHLET
     for k in range(0, nz):
-        t.bnd[W].val[:1, :, k] = 1.0 - yc;
+        t.bnd[W].val[:1, :, k] = 1.0 - yc
 
     t.bnd[S].typ[:, :1, :] = DIRICHLET
-    t.bnd[S].val[:, :1, :] = +1.0;
+    t.bnd[S].val[:, :1, :] = +1.0
     t.bnd[N].typ[:, :1, :] = DIRICHLET
     t.bnd[N].val[:, :1, :] = 0.0
 
@@ -115,7 +119,7 @@ def main(show_plot=True):
     # Time loop
     #
     # -----------
-    for ts in range(1, ndt + 1):
+    for ts in range(1, ndt+1):
 
         print_time_step(ts)
 

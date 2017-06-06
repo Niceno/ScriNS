@@ -50,6 +50,9 @@ from scrins.operators.par import par
 
 
 def main(show_plot=True):
+    """
+    Docstring.
+    """
 
 
     # ==========================================================================

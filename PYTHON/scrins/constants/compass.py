@@ -1,4 +1,6 @@
-# Compass notation
+"""
+Compass notation.
+"""
 W = 0
 E = 1
 S = 2

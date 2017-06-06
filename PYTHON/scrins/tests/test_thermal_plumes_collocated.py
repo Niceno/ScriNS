@@ -14,6 +14,8 @@ staggered and collocated arrangements always possible.
 
 from numpy import zeros
 
+
+#import scrins.constants
 from scrins.constants.boundary_conditions import DIRICHLET, NEUMANN, OUTLET
 from scrins.constants.coordinates import X, Y, Z
 from scrins.constants.compass import W, E, S, N, B, T, C
@@ -34,11 +36,14 @@ from scrins.operators.par import par
 
 
 def main(show_plot=True):
-    # ==========================================================================
+    """
+    Docstring.
+    """
+    # =========================================================================
     #
     # Define problem
     #
-    # ==========================================================================
+    # =========================================================================
 
     # Node coordinates
     xn = nodes(0, 10, 300)
@@ -51,7 +56,9 @@ def main(show_plot=True):
     zc = avg(zn)
 
     # Cell dimensions
-    nx, ny, nz, dx, dy, dz, rc, ru, rv, rw = cartesian_grid(xn, yn, zn)
+    nx, ny, nz, \
+    dx, dy, dz, \
+    rc, ru, rv, rw = cartesian_grid(xn, yn, zn)
 
     # Set physical properties
     rho = zeros(rc)
@@ -80,10 +87,10 @@ def main(show_plot=True):
     # Specify boundary conditions
     uc.bnd[W].typ[:1, :, :] = DIRICHLET
     for k in range(0, nz):
-        uc.bnd[W].val[:1, :, k] = par(1.0, yn);
+        uc.bnd[W].val[:1, :, k] = par(1.0, yn)
 
     uc.bnd[E].typ[:1, :, :] = OUTLET
-    uc.bnd[E].val[:1, :, :] = 1.0;
+    uc.bnd[E].val[:1, :, :] = 1.0
 
     for j in (B, T):
         uc.bnd[j].typ[:] = NEUMANN
@@ -92,10 +99,10 @@ def main(show_plot=True):
 
     t.bnd[W].typ[:1, :, :] = DIRICHLET
     for k in range(0, nz):
-        t.bnd[W].val[:1, :, k] = 1.0 - yc;
+        t.bnd[W].val[:1, :, k] = 1.0 - yc
 
     t.bnd[S].typ[:, :1, :] = DIRICHLET
-    t.bnd[S].val[:, :1, :] = +1.0;
+    t.bnd[S].val[:, :1, :] = +1.0
     t.bnd[N].typ[:, :1, :] = DIRICHLET
     t.bnd[N].val[:, :1, :] = 0.0
 

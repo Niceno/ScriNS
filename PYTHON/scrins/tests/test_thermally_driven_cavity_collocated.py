@@ -47,6 +47,9 @@ from scrins.display.print_time_step import print_time_step
 
 
 def main(show_plot=True):
+    """
+    Docstring.
+    """
 
 
     # ==========================================================================

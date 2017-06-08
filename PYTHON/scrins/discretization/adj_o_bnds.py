@@ -1,6 +1,7 @@
 """
 
-Update velocities in boundary cells"""
+Update velocities in boundary cells
+"""
 
 from scipy import logical_not as lnot
 from scrins.constants.boundary_conditions import DIRICHLET, OUTLET

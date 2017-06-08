@@ -1,2 +1,4 @@
-# Gravitational constant
+"""
+Gravitational constant.
+"""
 G = 9.81

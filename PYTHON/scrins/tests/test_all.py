@@ -8,6 +8,9 @@ import types
 from scrins import tests
 
 def main():
+    """
+    Docstring.
+    """
 
     test_mods = [(name, obj) for name, obj in vars(tests).items()
                  if name.startswith('test_') and name != 'test_all' and
